@@ -1,3 +1,5 @@
+const puppeteer = require("puppeteer-core");
+const chrome = require("chrome-aws-lambda");
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 require("dotenv").config();
@@ -7,7 +9,7 @@ const chatId = process.env.CHAT_ID;
 const loginUrl = "https://ais.usvisa-info.com/en-et/niv/users/sign_in";
 const scrapeUrl =
   "https://ais.usvisa-info.com/en-et/niv/schedule/57941991/payment";
-const username = "wabcdefghij14w@gmail.com"; // Moved username to .env for security
+const username = "wabcdefghij14w@gmail.com";
 const password = process.env.PASSWORD;
 
 // Function to send messages to Telegram
@@ -37,26 +39,18 @@ async function postToTelegram(slotInfo) {
 // Main function to automate login and scraping
 async function automateLogin() {
   try {
-    const puppeteer = require("puppeteer-core");
-    const chrome = require("chrome-aws-lambda");
-
     const browser = await puppeteer.launch({
-      args: chrome.args,
-      headless: true,
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? await chrome.executablePath
-          : "/usr/bin/google-chrome-stable", // For local testing
+      args: [...chrome.args, "--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
     });
 
     const page = await browser.newPage();
-
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     );
 
     await page.goto(loginUrl, { waitUntil: "networkidle2" });
-
     await page.type("#user_email", username);
     await page.type("#user_password", password);
 
