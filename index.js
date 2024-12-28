@@ -7,7 +7,7 @@ const chatId = process.env.CHAT_ID;
 const loginUrl = "https://ais.usvisa-info.com/en-et/niv/users/sign_in";
 const scrapeUrl =
   "https://ais.usvisa-info.com/en-et/niv/schedule/57941991/payment";
-const username = "wabcdefghij14w@gmail.com";
+const username = "wabcdefghij14w@gmail.com"; // Moved username to .env for security
 const password = process.env.PASSWORD;
 
 // Function to send messages to Telegram
@@ -37,19 +37,16 @@ async function postToTelegram(slotInfo) {
 // Main function to automate login and scraping
 async function automateLogin() {
   try {
-    const puppeteer = require("puppeteer");
+    const puppeteer = require("puppeteer-core");
+    const chrome = require("chrome-aws-lambda");
 
     const browser = await puppeteer.launch({
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--single-process",
-        "--disable-extensions",
-      ],
+      args: chrome.args,
       headless: true,
-      executablePath: "/usr/bin/google-chrome-stable",
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? await chrome.executablePath
+          : "/usr/bin/google-chrome-stable", // For local testing
     });
 
     const page = await browser.newPage();
