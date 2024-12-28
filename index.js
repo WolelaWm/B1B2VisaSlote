@@ -41,7 +41,9 @@ async function automateLogin() {
   try {
     const browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath,
+      executablePath:
+        process.env.PUPPETEER_EXECUTABLE_PATH ||
+        (await chromium.executablePath),
       headless: chromium.headless,
     });
 
