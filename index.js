@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer-core");
-const chrome = require("chrome-aws-lambda");
+const chromium = require("chrome-aws-lambda");
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 require("dotenv").config();
@@ -40,9 +40,9 @@ async function postToTelegram(slotInfo) {
 async function automateLogin() {
   try {
     const browser = await puppeteer.launch({
-      args: [...chrome.args, "--no-sandbox", "--disable-setuid-sandbox"],
-      executablePath: await chrome.executablePath,
-      headless: chrome.headless,
+      args: chromium.args,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
     });
 
     const page = await browser.newPage();
