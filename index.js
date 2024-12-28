@@ -41,7 +41,7 @@ async function automateLogin() {
   try {
     const browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath, // Use the path from chrome-aws-lambda
+      executablePath: await chromium.executablePath, // This will use chrome-aws-lambda's Chromium
       headless: chromium.headless,
     });
 
