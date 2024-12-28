@@ -15,13 +15,13 @@
   ],
   "author": "Your Name",
   "license": "ISC",
- "dependencies": {
-  "cheerio": "^1.0.0",
-  "dotenv": "^16.4.7",
-  "node-fetch": "^2.6.7",
-  "chrome-aws-lambda": "^10.1.0",
-  "puppeteer-core": "^10.1.0"
-},
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "node-fetch": "^2.6.7",
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer": "^23.11.1"
+  },
   "engines": {
     "node": ">=18.0.0"
   }
